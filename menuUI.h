@@ -12,6 +12,42 @@ int calculeaza_cos(Cont& c) {
     }
     return suma;
 }
+void editare_categ(int s, Cont& c) {
+    system("cls");
+    switch(s) {
+        case 1: {
+            for(int i = 0; i<totalCategori; i++) {
+                cout<<i<<". "<<categories[i]<<endl;
+            }
+            int n;
+            cout<<"Insereaza categoria pe care vrei sa o editezi: ";
+            cin>>n;
+            while(n<0 || n>=totalCategori) cin>>n;
+            string cat;
+            cout<<endl<<"Introdu noul nume pentru categorie: ";
+            getline(cin>>ws, cat);
+            categories[n] = cat;
+            salveaza_categorii();
+            system("cls");
+            cout<<"Categoria a fost modificata cu succes."<<endl;
+            meniu(c);
+        }
+        case 2: { 
+            string cat;
+            cout<<endl<<"Introdu numele categoriei noi: ";
+            getline(cin>>ws, cat);        
+            for(int i = 0; i<totalCategori; i++) {
+                cout<<i<<". "<<categories[i]<<endl;
+            }
+            categories[totalCategori] = cat;
+            totalCategori++;
+            salveaza_categorii();
+            system("cls");
+            cout<<"Categoria a fost adaugata cu succes."<<endl;
+            meniu(c);
+        }
+    }
+}
 void cart_model(int select, Cont& c) {
     switch(select) {
         case 1: {
@@ -65,7 +101,8 @@ void meniu(Cont& c) {
     cout<<"4. Cauta produs"<<endl;
     cout<<"5. Vezi cos de cumparaturi ("<<calculeaza_cos(c)<<")"<<endl;
     cout<<"6. Vezi comenzi"<<endl;
-    cout<<"7. Exit"<<endl;
+    cout<<"7. Modificare categorii"<<endl;
+    cout<<"8. Exit"<<endl;
     int option = 0;
     while(option < 1 || option > 7) cin>>option;
     switch(option) {
@@ -119,14 +156,13 @@ void meniu(Cont& c) {
                 meniu(c);
             }
 
+            cout<<endl<<"Insereaza categoria:"<<endl;
             int cat=-1;
             cout<<endl<<"Insereaza categoria:"<<endl;
-            cout<<"0. Fara categorie."<<endl;
-            cout<<"1. Electronice"<<endl;
-            cout<<"2. Casa si gradina"<<endl;
-            cout<<"3. Fashion"<<endl;
-            cout<<"4. Auto, moto"<<endl;
-            while(cat < 0 || cat > 4) cin >>cat;
+            for(int i = 0; i<totalCategori; i++) {
+                cout<<i<<". "<<categories[i]<<endl;
+            }
+            while(cat < 0 || cat >= totalCategori) cin >>cat;
 
             produse.push_back(Produs(numeprod, pret, stoc, cat));
 
@@ -222,8 +258,18 @@ void meniu(Cont& c) {
             break;
         }
 
-
         case 7: {
+            system("cls");
+            cout<<"1. Modificare categorie"<<endl;
+            cout<<"2. Adaugare categorie"<<endl;
+            int select = 0;
+            while(select < 1 || select > 2)cin>>select;
+            editare_categ(select, c);
+
+        }
+
+
+        case 8: {
             exit(1);
             break;
         }
@@ -367,12 +413,10 @@ void cautare(int option, Cont& c)
         case 4: {
             int cat=-1;
             cout<<endl<<"Insereaza categoria:"<<endl;
-            cout<<"0. Fara categorie."<<endl;
-            cout<<"1. Electronice"<<endl;
-            cout<<"2. Casa si gradina"<<endl;
-            cout<<"3. Fashion"<<endl;
-            cout<<"4. Auto, moto"<<endl;
-            while(cat < 0 || cat > 4) cin >>cat;
+            for(int i = 0; i<totalCategori; i++) {
+                cout<<i<<". "<<categories[i]<<endl;
+            }
+            while(cat < 0 || cat >= totalCategori) cin >>cat;
             system("cls");
             foreach(it, produse) {
                 if(it->getCateg() == cat) {
