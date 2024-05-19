@@ -33,10 +33,10 @@ void editare_categ(int s, Cont& c) {
             meniu(c);
             break;
         }
-        case 2: { 
+        case 2: {
             string cat;
             cout<<endl<<"Introdu numele categoriei noi: ";
-            getline(cin>>ws, cat);        
+            getline(cin>>ws, cat);
             for(int i = 0; i<totalCategori; i++) {
                 cout<<i<<". "<<categories[i]<<endl;
             }
@@ -282,8 +282,8 @@ void meniu(Cont& c) {
                 index++;
             }
             x=0;
-            while(x < 1||x>produse.size()) cin>>x;
-            
+            while(x < 1||x>int(produse.size())) cin>>x;
+
             if(c.cos.size() > 0) {
                 for(auto it : c.cos) {
                     if(produse[x-1] == it.first) {
@@ -313,7 +313,7 @@ void meniu(Cont& c) {
                     produse[r].setName(nume);
                     salveaza_produse();
                     incarca_produse();
-                    cout<<"Numele produsului a fost modificat."<<endl; 
+                    cout<<"Numele produsului a fost modificat."<<endl;
                     meniu(c);
 
                     break;
@@ -332,7 +332,7 @@ void meniu(Cont& c) {
                     break;
                 }
                 case 3: {
-                    
+
                     system("cls");
                     int stoc = -1;
                     cout<<"Introdu noul stoc al produsului: ";

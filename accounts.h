@@ -121,7 +121,7 @@ void save_orders(Cont& c) {
             file<<cmd.nume_produs[it]<<endl;
             file<<cmd.preturi[it]<<" "<<cmd.bucati[it]<<endl;
         }
-        file<<"œ"<<endl;
+        file<<"ï¿½"<<endl;
     }
     file.close();
 }
@@ -134,7 +134,7 @@ void load_orders(Cont& c) {
     Comanda* cmd = new Comanda();
     while(getline(file>>ws, name)) {
         int pret, buc;
-        if(name == "œ") {
+        if(name == "ï¿½") {
             getline(file>>ws, name);
             c.comenzi.push_back(*cmd);
             delete cmd;
