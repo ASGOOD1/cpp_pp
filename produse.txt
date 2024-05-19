@@ -1,6 +1,4 @@
 Telefon s21 plus
-4 1000 1
+3 1000 1
 Casa
 1 133 2
-TEst
-123 1390 0

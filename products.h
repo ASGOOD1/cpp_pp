@@ -28,12 +28,14 @@ class Produs {
         void setStoc(int a) {
             this->stoc = a;
         }
+        void setName(string nume) {
+            this->nume = nume;
+        }
         void setCategorie(int a) {
             this->categorie = a;
         }
-        Produs& operator-=(int a) {
-            this->stoc -= a;
-            return *this;
+        void setPret(int a) {
+            this->pret = a;
         }
         friend ostream& operator<<(ostream& os, Produs& p) {
             os<<"Nume produs:\t"<<p.getName()<<endl;

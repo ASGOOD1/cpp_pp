@@ -31,6 +31,7 @@ void editare_categ(int s, Cont& c) {
             system("cls");
             cout<<"Categoria a fost modificata cu succes."<<endl;
             meniu(c);
+            break;
         }
         case 2: { 
             string cat;
@@ -45,6 +46,7 @@ void editare_categ(int s, Cont& c) {
             system("cls");
             cout<<"Categoria a fost adaugata cu succes."<<endl;
             meniu(c);
+            break;
         }
     }
 }
@@ -73,6 +75,7 @@ void cart_model(int select, Cont& c) {
                 cout<<"Produsul a fost sters din cosul tau de cumparaturi."<<endl;
                 meniu(c);
             }
+            break;
         }
         case 2: {
             Comanda cmd;
@@ -90,6 +93,7 @@ void cart_model(int select, Cont& c) {
             system("cls");
             cout<<"Comanda a fost plasata."<<endl;
             meniu(c);
+            break;
         }
     }
 }
@@ -102,9 +106,10 @@ void meniu(Cont& c) {
     cout<<"5. Vezi cos de cumparaturi ("<<calculeaza_cos(c)<<")"<<endl;
     cout<<"6. Vezi comenzi"<<endl;
     cout<<"7. Modificare categorii"<<endl;
-    cout<<"8. Exit"<<endl;
+    cout<<"8. Modificare produse"<<endl;
+    cout<<"9. Exit"<<endl;
     int option = 0;
-    while(option < 1 || option > 7) cin>>option;
+    while(option < 1 || option > 9) cin>>option;
     switch(option) {
         case 1: {
             if(produse.size() == 0)  {
@@ -114,10 +119,7 @@ void meniu(Cont& c) {
             }
             system("cls");
             foreach(it, produse) {
-                cout<<"Nume produs:\t"<<it->getName()<<endl;
-                cout<<"Pret: \t\t"<<it->getPret()<<" RON"<<endl;
-                cout<<"Stoc: \t\t"<<it->getStoc()<<endl;
-                cout<<"---------------------------------------------"<<endl<<endl;
+                cout<<*it;
             }
             meniu(c);
             break;
@@ -241,6 +243,7 @@ void meniu(Cont& c) {
                 cout<<endl<<"---------------------------------------------"<<endl;
                 meniu(c);
             }
+            break;
         }
         case 6: {
             system("cls");
@@ -265,11 +268,104 @@ void meniu(Cont& c) {
             int select = 0;
             while(select < 1 || select > 2)cin>>select;
             editare_categ(select, c);
+            break;
 
         }
 
-
         case 8: {
+            system("cls");
+            int index = 1, x;
+            cout<<"Insereaza produsul pe care vrei sa-l modifici:"<<endl;
+            foreach(it, produse) {
+                cout<<"|"<<index<<"|"<<endl;
+                cout<<*it;
+                index++;
+            }
+            x=0;
+            while(x < 1||x>produse.size()) cin>>x;
+            
+            if(c.cos.size() > 0) {
+                for(auto it : c.cos) {
+                    if(produse[x-1] == it.first) {
+                        system("cls");
+                        cout<<"Nu poti edita un produs pe care-l ai in cos."<<endl;
+                        meniu(c);
+                        break;
+                    }
+                }
+            }
+            int r = x-1;
+            x = 0;
+            system("cls");
+            cout<<"Ai ales sa modifici produsul:"<<endl;
+            cout<<produse[x-1];
+            cout<<"1. Modifica nume"<<endl;
+            cout<<"2. Modifica pret"<<endl;
+            cout<<"3. Modifica stoc"<<endl;
+            cout<<"4. Modifica categorie"<<endl;
+            while(x<1||x>4)cin>>x;
+            system("cls");
+            switch(x) {
+                case 1: {
+                    string nume;
+                    cout<<"Introdu noul nume al produsului: ";
+                    getline(cin>>ws, nume);
+                    produse[r].setName(nume);
+                    salveaza_produse();
+                    incarca_produse();
+                    cout<<"Numele produsului a fost modificat."<<endl; 
+                    meniu(c);
+
+                    break;
+                }
+                case 2: {
+                    int pret = -1;
+                    cout<<"Introdu noul pret al produsului: ";
+                    while(pret<0) cin>>pret;
+                    produse[r].setPret(pret);
+                    salveaza_produse();
+                    incarca_produse();
+                    system("cls");
+                    cout<<"Pretul produsului a fost modificat."<<endl;
+                    meniu(c);
+
+                    break;
+                }
+                case 3: {
+                    
+                    system("cls");
+                    int stoc = -1;
+                    cout<<"Introdu noul stoc al produsului: ";
+                    while(stoc<0)cin>>stoc;
+                    produse[r].setStoc(stoc);
+                    salveaza_produse();
+                    incarca_produse();
+                    system("cls");
+                    cout<<"Stocul produsului a fost modificat."<<endl;
+                    meniu(c);
+                    break;
+                }
+                case 4: {
+                    int ctg = -1;
+                    system("cls");
+                    for(int i = 0; i<totalCategori; i++) cout<<i<<". "<<categories[i]<<endl;
+                    cout<<"Introdu noua categorie al produsului: ";
+                    while(ctg < 0 || ctg >= totalCategori) cin>>ctg;
+                    produse[r].setCategorie(ctg);
+                    salveaza_produse();
+                    incarca_produse();
+                    system("cls");
+                    cout<<"Categoria produsului a fost modificata."<<endl;
+                    meniu(c);
+
+                    break;
+                }
+            }
+            break;
+
+        }
+
+        case 9: {
             exit(1);
             break;
         }
