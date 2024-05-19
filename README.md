@@ -11,3 +11,4 @@
 ##  19.05
   -  Se pot cauta obiecte dupa categorie 
   -  Categoriile sunt dinamice ( Se pot adauga / modifica )
+  -  Adaugata optiunea de modificare a produselor (daca se seteaza pretul sau stocul pe 0 se sterge automat produsul)
