@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1715809798 source:c:\users\sima nu\desktop\cproj\cpp-pp\main.cpp
+	"includes.h"
+	"products.h"
+	"orders.h"
+	"accounts.h"
+	"menuUI.h"
+
+1715805860 c:\users\sima nu\desktop\cproj\cpp-pp\includes.h
+	<iostream>
+	<map>
+	<vector>
+	<string>
+	<cstring>
+	<algorithm>
+	<fstream>
+	<stdio.h>
+	<io.h>
+
+1716075319 c:\users\sima nu\desktop\cproj\cpp-pp\products.h
+
+1715851020 c:\users\sima nu\desktop\cproj\cpp-pp\orders.h
+
+1715809699 c:\users\sima nu\desktop\cproj\cpp-pp\accounts.h
+
+1716076088 c:\users\sima nu\desktop\cproj\cpp-pp\menuui.h
+
