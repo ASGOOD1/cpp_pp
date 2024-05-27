@@ -4,6 +4,7 @@
 class Cont {
     string username;
     string password;
+    bool admin;
     public:
         map<Produs, int> cos;
         vector<Comanda> comenzi;
@@ -11,12 +12,24 @@ class Cont {
         Cont(string& username, string& pwd) {
             this->username = username;
             this->password = pwd;
+            this->admin = false;
+        }
+        Cont(string& username, string& pwd, bool adm) {
+            this->username = username;
+            this->password = pwd;
+            this->admin = adm;
         }
         void setName(string user) {
             this->username = user;
         }
         void setPWD(string user) {
             this->password = user;
+        }
+        bool getAdmin() {
+            return this->admin;
+        }
+        void setAdmin(bool val) {
+            this->admin = val;
         }
         string getName() {
             return this->username;
@@ -54,17 +67,20 @@ void saveAccounts() {
     ofstream file;
     file.open("conturi.txt");
     for(auto it = conturi.begin(); it!=conturi.end(); ++it) {
-        file<<it->getName()<<" "<<it->getPWD()<<endl;
+        file<<it->getName()<<" "<<it->getPWD()<<" "<<it->getAdmin();
+        file<<endl;
     }
     file.close();
 }
 void loadAccounts() {
     ifstream file;
     string nume, pwd;
+    bool adm;
     file.open("conturi.txt");
     while(file>>nume) {
         file>>pwd;
-        conturi.push_back(Cont(nume, pwd));
+        file>>adm;
+        conturi.push_back(Cont(nume, pwd, !!adm));
     }
     file.close();
 
@@ -121,7 +137,7 @@ void save_orders(Cont& c) {
             file<<cmd.nume_produs[it]<<endl;
             file<<cmd.preturi[it]<<" "<<cmd.bucati[it]<<endl;
         }
-        file<<"�"<<endl;
+        file<<"œ"<<endl;
     }
     file.close();
 }
@@ -134,7 +150,7 @@ void load_orders(Cont& c) {
     Comanda* cmd = new Comanda();
     while(getline(file>>ws, name)) {
         int pret, buc;
-        if(name == "�") {
+        if(name == "œ") {
             getline(file>>ws, name);
             c.comenzi.push_back(*cmd);
             delete cmd;

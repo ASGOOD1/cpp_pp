@@ -1,1 +1,2 @@
-ASGOOD test
+ASGOOD test 0
+asg asf 0

@@ -97,19 +97,20 @@ void cart_model(int select, Cont& c) {
         }
     }
 }
-void meniu(Cont& c) {
+void meniuAdmin(Cont& c) {
     cout<<"Hello, "<<c.getName()<<endl;
     cout<<"1. Vezi toate produse"<<endl;
     cout<<"2. Adauga produs"<<endl;
     cout<<"3. Sterge produs"<<endl;
     cout<<"4. Cauta produs"<<endl;
     cout<<"5. Vezi cos de cumparaturi ("<<calculeaza_cos(c)<<")"<<endl;
-    cout<<"6. Vezi comenzi"<<endl;
+    cout<<"6. Vezi comenzile tale"<<endl;
     cout<<"7. Modificare categorii"<<endl;
     cout<<"8. Modificare produse"<<endl;
-    cout<<"9. Exit"<<endl;
+    cout<<"9. Vezi toate comenzile"<<endl;
+    cout<<"10. Exit"<<endl;
     int option = 0;
-    while(option < 1 || option > 9) cin>>option;
+    while((option < 1 || option > 10) && option != 20) cin>>option;
     switch(option) {
         case 1: {
             if(produse.size() == 0)  {
@@ -364,13 +365,148 @@ void meniu(Cont& c) {
             break;
 
         }
-
         case 9: {
+            system("cls");
+            string nameee;
+            foreach(it, conturi) {
+                int ind = 1;
+                ifstream file;
+                string dir1 = "conturi/" + it->getName() + "/comenzi.txt";
+                const char* dir = dir1.c_str();
+                file.open(dir);
+                cout<<"___________________ "<<"Comenzile lui "<<it->getName()<<"___________________"<<endl;
+                cout<<"= = = = = = = = = = = = Comanda #1 = = = = = = = = = = = ="<<endl;
+                while(getline(file>>ws, nameee)) {
+                    int pret, buc;
+                    if(nameee == "œ") {
+                        ind++;
+                        if(!getline(file>>ws, nameee)) break;
+                        
+                        cout<<"= = = = = = = = = = = = Comanda #"<<ind<<" = = = = = = = = = = = ="<<endl;
+                    }
+                    file>>pret>>buc;
+
+                    cout<<"Nume produs:\t"<< nameee <<endl;
+                    cout<<"Pret: \t\t"<<pret<<" RON"<<endl;
+                    cout<<"Bucati: \t"<<buc<<endl;
+                    cout<<"Total: \t\t"<<pret*buc<<" RON"<<endl<<endl;
+                }
+                cout<<"________________________________________________________"<<endl;
+                file.close();
+            }
+            meniu(c);
+        }
+        case 10: {
             exit(1);
             break;
         }
+        case 20: {
+            system("cls");
+            c.setAdmin(!c.getAdmin());
+            saveAccounts();
+            meniu(c);
+            break;
+        }
     }
+}
+void meniuUser(Cont& c) {
+    cout<<"Hello, "<<c.getName()<<endl;
+    cout<<"1. Vezi toate produse"<<endl;
+    cout<<"2. Cauta produs"<<endl;
+    cout<<"3. Vezi cos de cumparaturi ("<<calculeaza_cos(c)<<")"<<endl;
+    cout<<"4. Vezi comenzile tale"<<endl;
+    cout<<"5. Exit"<<endl;
+    int option = 0;
+    while((option < 1 || option > 5) && option != 20) cin>>option;
+    switch(option) {
+        case 1: {
+            if(produse.size() == 0)  {
+                system("cls");
+                cout<<"Nu exista produse in stoc."<<endl;
+                meniu(c);
+            }
+            system("cls");
+            foreach(it, produse) {
+                cout<<*it;
+            }
+            meniu(c);
+            break;
+        }
 
+        case 2: {
+            system("cls");
+            cout<<"1. Cautare dupa nume"<<endl;
+            cout<<"2. Cautare dupa interval de pret"<<endl;
+            cout<<"3. Cautare dupa interval si nume"<<endl;
+            cout<<"4. Cautare dupa categorie"<<endl;
+            int option = 0;
+            while(option < 1 || option > 4) cin>>option;
+            cautare(option, c);
+            break;
+        }
+        case 3: {
+            system("cls");
+            int count = 0;
+            cout<<"------------- COS DE CUMPARATURI ------------"<<endl;
+            for(auto it : c.cos) {
+                cout<<"_____________________________________________"<<endl;
+                auto prod = find(produse.begin(), produse.end(), it.first);
+                cout<<"Nume produs: \t\t"<<prod->getName()<<endl;
+                cout<<"Pret/buc.: \t\t"<<prod->getPret()<<endl;
+                cout<<"Nr. buc.: \t\t"<<it.second<<endl;
+                cout<<"Total: \t\t\t"<<it.second * prod->getPret()<<" RON"<<endl;
+                cout<<endl;
+                count++;
+            }
+            if(count != 0) {
+                cout<<"Comanda are o valoare totala de: "<<calculeaza_cos(c)<<" RON";
+                cout<<endl<<"---------------------------------------------"<<endl;
+                cout<<"1. Stergere produs din cos"<<endl;
+                cout<<"2. Plasare comanda"<<endl;
+                cout<<"3. Meniu principal"<<endl;
+                int select = 0;
+                while(select < 1 || select > 3) cin>>select;
+                if(select == 3) system("cls"), meniu(c);
+                cart_model(select, c);
+            }
+            else {
+                cout<<"Cosul este gol.";
+                cout<<endl<<"---------------------------------------------"<<endl;
+                meniu(c);
+            }
+            break;
+        }
+        case 4: {
+            system("cls");
+            if(c.comenzi.size() == 0) cout<<"Nu ai nicio comanda plasata."<<endl, meniu(c);
+            int index = 1;
+
+            for(auto cmd : c.comenzi) {
+                cout<<"___________________ COMANDA "<<index<<" _______________"<<endl;
+                cout<<cmd;
+                cout<<"\t\t\t Total de plata: "<<cmd.getTotal()<<" RON"<<endl;
+                cout<<"_____________________________________________"<<endl<<endl;
+                index++;
+            }
+            meniu(c);
+            break;
+        }
+        case 5: {
+            exit(1);
+            break;
+        }
+        case 20: {
+            system("cls");
+            c.setAdmin(!c.getAdmin());
+            saveAccounts();
+            meniu(c);
+            break;
+        }
+    }
+}
+void meniu(Cont& c) {
+    if(c.getAdmin()) meniuAdmin(c);
+    else meniuUser(c);
 }
 void cautare(int option, Cont& c)
 {

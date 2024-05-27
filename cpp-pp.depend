@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1715809798 source:c:\users\sima nu\desktop\cproj\cpp-pp\main.cpp
+1716097374 source:c:\users\sima nu\desktop\cproj\cpp-pp\main.cpp
 	"includes.h"
 	"products.h"
+	"categories.h"
 	"orders.h"
 	"accounts.h"
 	"menuUI.h"
@@ -17,11 +18,13 @@
 	<stdio.h>
 	<io.h>
 
-1716075319 c:\users\sima nu\desktop\cproj\cpp-pp\products.h
+1716094704 c:\users\sima nu\desktop\cproj\cpp-pp\products.h
 
-1715851020 c:\users\sima nu\desktop\cproj\cpp-pp\orders.h
+1716820114 c:\users\sima nu\desktop\cproj\cpp-pp\orders.h
 
-1715809699 c:\users\sima nu\desktop\cproj\cpp-pp\accounts.h
+1716821399 c:\users\sima nu\desktop\cproj\cpp-pp\accounts.h
 
-1716076088 c:\users\sima nu\desktop\cproj\cpp-pp\menuui.h
+1716821290 c:\users\sima nu\desktop\cproj\cpp-pp\menuui.h
+
+1716092438 c:\users\sima nu\desktop\cproj\cpp-pp\categories.h
 
